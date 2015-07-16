@@ -1,0 +1,21 @@
+<div id="right" ng-hide="cookie">
+	<h3>Hi, bro!</h3>
+	<input type="text" name="name" placeholder="Your name bro!" ng-model="name" class="form-control"/>
+	<input type="text" name="smth" placeholder="Thomething else" ng-model="desc" class="form-control" />
+	<input type="submit" name="submit" ng-click="login(name, desc)" class="form-control"/>
+</div>
+
+<div id="middle" ng-show="cookie">
+	<h3>Hi, {{cookie}}! Try to add post below!</h3>
+	<textarea name="post" class="form-control" ng-model="message" cols="30" rows="10"></textarea>
+	<button class="btn btn-sm btn-primary button" ng-click="post(message)">Post me!</button>
+</div>
+
+
+<div id="posts">
+	<div class="post" ng-repeat="post in posts">
+		<span>{{post.author}}</span>
+		<div>{{post.time}}</div>
+		<p>{{post.text}}</p>
+	</div>
+</div>

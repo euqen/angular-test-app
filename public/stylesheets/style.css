@@ -1,0 +1,34 @@
+body {
+  padding: 50px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+#right {
+	width: 400px;
+	float:right;
+}
+#middle {
+	width: 400px;
+	margin: 0 auto;
+}
+.button {
+	float:right;
+	margin: 10px;
+}
+#posts {
+	width: 400px;
+	margin: 0 auto;
+	margin-top: 100px;
+}
+.post {
+	background: #f4f4f4;
+	padding: 10px;
+	width: 350px;
+	height: auto;
+	border: 1px solid #fffff;
+	margin: 10px;
+	border-radius: 4px;
+}
