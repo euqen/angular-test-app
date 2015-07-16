@@ -1,9 +1,9 @@
 var services = angular.module('services', ['app'])
 
-services.service('api', function($http) {
+services.service('api', function($http, $cookieStore) {
 
-	this.post = function(message, sender) {
-		var model = {text: message, author: sender, time: new Date()};
+	this.post = function(message) {
+		var model = {text: message, author: $cookieStore.get('localCookie'), time: new Date()};
 		return $http.post('/api/v1/posts/', model);
 	};
 
