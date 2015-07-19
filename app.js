@@ -1,41 +1,70 @@
-
 /**
  * Module dependencies.
  */
 
 var express = require('express');
-var routes = require('./routes/index');
 var path = require('path');
-var api = require('./routes/api');
 var bodyParser = require('body-parser');
-var app = module.exports = express.createServer();
-
-// Configuration
+var app = express();
+var logger = require("./shared/logger");
+var config = require('./shared/config');
+var expressValidator = require('express-validator');
+var ErrorResponse = require('./shared/infrastructure/errorResponse');
+var http = require('http').Server(app);
+var handler = require('./shared/handlers/socket')(http);
+var server;
+/**
+ * Configuration
+ **/
 
 app.set('views', __dirname + '/views');
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.text({ type: 'text/html' }));
-app.use(bodyParser.json({ type: 'application/json' }));
-app.use(express.methodOverride());
+app.use(bodyParser.json({ type: 'application/json'}));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/bower_components', express.static(path.join(__dirname, '/bower_components')));
-app.use(app.router);
 
-app.configure('development', function(){
-  app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+app.use(function (error, request, response, next) {
+  if (error.status) {
+    logger.warn('Invalid json: ', error);
+    var errorResponse = new ErrorResponse();
+    errorResponse.addError('', 'invalid JSON');
+
+    response.status(error.status).send(errorResponse);
+  }
+  else next();
 });
 
-app.configure('production', function(){
-  app.use(express.errorHandler());
+app.use(expressValidator());
+app.use(logger.expressErrorLogger);
+
+app.use(function(request, response, next) {
+  if(app.get("isShuttingDown")) {
+    request.connection.setTimeout(1);
+  }
+  next();
 });
 
-//API Routes
-app.post('/api/v1/posts', api.addPost);
-app.get('/api/v1/posts', api.getPosts);
+app.use('/api/v1/posts', require('./actions/posts/index'));
+app.use('/*', require('./actions/application/index'));
 
-// Other routes
-app.get('*', routes.index);
-
-app.listen(4000, function(){
-  console.log("Express server listening on port %d in %s mode", app.address().port, app.settings.env);
+app.use(function(request, response, next) {
+  logger.warn("404 - Resource or page is not found: " + request.url);
+  response.sendStatus(404);
 });
+
+app.use(function(error, request, response, next) {
+   logger.warn("500 - Bad gateway: " + request.url);
+   response.sendStatus(500);
+});
+
+process.on('uncaughtException', function (err) {
+  logger.error('FATALERROR! UNEXPECTED ERROR HAPPENED. CRASHING NODE PROCESS. ', err);
+  logger.error('FATALERROR! UNEXPECTED ERROR STACK: ', err.stack);
+  process.exit(1);
+});
+
+http.listen(config.environment.httpPort, function() {
+  logger.info("Server listening on port %d in %s mode", config.environment.httpPort, config.environment.type);
+});
+

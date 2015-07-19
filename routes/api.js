@@ -1,20 +1,23 @@
-var Post = require('../models/posts');
+module.exports = function(app, io) {
+	var Post = require('../models/posts');
 
-exports.addPost = function(request, response)
-{
-	var post = new Post(request.body);
+	app.addPost = function(request, response)
+	{
+		var post = new Post(request.body);
 
-	post.save(function(error, posts) {
-		if (error) return response.json(error);
-		response.send(200);
-	});
-};
+		post.save(function(error, posts) {
+			if (error) return response.json(error);
+			response.send(200);
+			io.emit('post', post);
+		});
+	};
 
-exports.getPosts = function(request, response)
-{
-	Post.find({}, function(error, posts) {
-		if (error) return response.json(error);
+	app.getPosts = function(request, response)
+	{
+		Post.find({}, function(error, posts) {
+			if (error) return response.json(error);
+			response.json(posts);
+		});
+	}
 
-		response.json(posts);
-	});
 }

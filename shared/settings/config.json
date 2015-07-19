@@ -1,0 +1,23 @@
+{
+  "mongo": {
+    "dbase": "mongodb://localhost/postdatabase"
+  },
+  "environment": {
+    "type": "development",
+    "httpPort": 4000
+  },
+  "socketServerUrl": "http://localhost:4000/",
+  "root": "http://localhost:4000",
+  "domain": "localhost",
+  "isHttps": false,
+  "protocol": "http",
+  "isMaintenance": false,
+  "useBuildApp": false,
+  "cookieSecret": "123safasd!afasdf*&^123asdas1ccc73c78bd0bfeb88906f582d635c6e2",
+  "expressMiddleware": {
+    "timeout": {
+      "value": 30,
+      "dimension": "seconds"
+    }
+  }
+}
