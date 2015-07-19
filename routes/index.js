@@ -1,11 +1,7 @@
-
 var express = require('express');
 var router = express.Router();
-var postAPI = require('../actions/posts/index');
-var appAPI = require('../actions/application/index');
+var app = require('../actions/application/index');
 
+router.get('/*', app.main);
 
-module.exports = function(app) 
-{
-	app.get('/posts', postAPI);
-};
+module.exports = router;

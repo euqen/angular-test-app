@@ -1,7 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var appAPI = require('./application');
+var fs = require('fs');
 
-router.get('/*', appAPI.main);
-
-module.exports = router;
+module.exports.main = function(request, response) {
+	fs.readFile("views/index.html", function (error, page) {
+		response.writeHead(202, {"Content-type":"text/html"});
+		response.end(page);
+	});
+};

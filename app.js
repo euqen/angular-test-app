@@ -13,6 +13,7 @@ var ErrorResponse = require('./shared/infrastructure/errorResponse');
 var http = require('http').Server(app);
 var handler = require('./shared/handlers/socket')(http);
 var server;
+
 /**
  * Configuration
  **/
@@ -45,8 +46,8 @@ app.use(function(request, response, next) {
   next();
 });
 
-app.use('/api/v1/posts', require('./actions/posts/index'));
-app.use('/*', require('./actions/application/index'));
+app.use('/api/v1', require('./routes/api'));
+app.use('/*', require('./routes/index'));
 
 app.use(function(request, response, next) {
   logger.warn("404 - Resource or page is not found: " + request.url);

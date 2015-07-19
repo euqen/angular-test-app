@@ -1,23 +1,8 @@
-module.exports = function(app, io) {
-	var Post = require('../models/posts');
+var express = require('express');
+var router = express.Router();
+var postAPI = require('../actions/posts/index');
 
-	app.addPost = function(request, response)
-	{
-		var post = new Post(request.body);
+router.get('/posts', postAPI.getPosts);
+router.post('/posts', postAPI.addPost);
 
-		post.save(function(error, posts) {
-			if (error) return response.json(error);
-			response.send(200);
-			io.emit('post', post);
-		});
-	};
-
-	app.getPosts = function(request, response)
-	{
-		Post.find({}, function(error, posts) {
-			if (error) return response.json(error);
-			response.json(posts);
-		});
-	}
-
-}
+module.exports = router;
