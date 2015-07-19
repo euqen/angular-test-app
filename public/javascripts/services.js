@@ -1,6 +1,7 @@
-var services = angular.module('services', ['app'])
+var app = angular.module('app');
 
-services.service('api', function($http, $cookieStore) {
+app.service('api', function($http, $cookieStore)
+{
 
 	this.post = function(message) {
 		var model = {text: message, author: $cookieStore.get('localCookie'), time: new Date()};
@@ -10,4 +11,8 @@ services.service('api', function($http, $cookieStore) {
 	this.get = function() {
 		return $http.get('/api/v1/posts');
 	};
+});
+
+app.service('socketio', function() {
+	return socket;
 });

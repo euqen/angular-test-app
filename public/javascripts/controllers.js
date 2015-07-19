@@ -1,6 +1,6 @@
-var controllers = angular.module('controllers', ['ngCookies', 'services']);
+var app = angular.module('app');
 
-controllers.controller('homeController', function($scope, $cookies, $cookieStore, $state, api, posts) 
+app.controller('homeController', function($scope, $cookies, $cookieStore, $state, api, posts, socketio)
 {
 	$scope.cookie = $cookies.get('localCookie');
 	$scope.posts = posts.data.reverse();
@@ -15,10 +15,21 @@ controllers.controller('homeController', function($scope, $cookies, $cookieStore
 	{
 		api.post(message)
 		.then(function() {
-			$state.reload();
+			$scope.message = '';
+			$scope.success = 'Well done!';
+			delete $scope.error;
 		})
-		.catch(function() {
-			//todo
+		.catch(function(error) {
+			$scope.error = error.data.errors[0].msg;
+			delete $scope.success;
 		});
 	}
+
+	socketio.on('post', function(post) {
+		console.log(post);
+		$scope.$apply(function() {
+			$scope.posts.unshift(post);
+		});
+	});
+
 });
