@@ -1,4 +1,4 @@
-var app = angular.module('app', ['ui.router','ngCookies']);
+var app = angular.module('app', ['ui.router', 'controllers', 'filters']);
 
 app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     $locationProvider.html5Mode({enabled: true, requireBase: false});
