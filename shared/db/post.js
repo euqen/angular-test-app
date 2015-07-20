@@ -19,7 +19,12 @@ var PostScheme = new mongoose.Schema({
 	time: {
 		type: Date,
 		default: new Date()
-	}	
+	},
+	location: {
+		type: String,
+		default: false,
+		required: true
+	}
 });
 
 

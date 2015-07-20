@@ -1,0 +1,24 @@
+{{message}}
+<div id="right" ng-if="!isAuthorized">
+	<h3>Hi, bro!</h3>
+	<form ng-submit="login(name, location)">
+		<input type="text" name="name" placeholder="Your name bro!" ng-model="name" class="form-control"/>
+		<input type="text" name="location" placeholder="Your location, bro!" ng-model="location" class="form-control"/>
+		<input type="submit" name="submit" class="form-control" value='sign in'/>
+	</form>
+</div>
+
+
+<div id="right" ng-if="isAuthorized">
+	<form name="form">
+		<h3>Hi, {{name}}! Try to add post below!</h3>
+		<textarea name="post" class="form-control" ng-model="message" cols="30" rows="10"></textarea>
+		<button class="btn btn-sm btn-primary button" ng-click="insert(message, form)">Post me!</button>
+	</form>
+</div>
+
+<div class="post" ng-repeat="post in posts">
+	<span>{{post.author}}</span>
+	<div>{{post.time}}</div>
+	<p>{{post.text}}</p>
+</div>

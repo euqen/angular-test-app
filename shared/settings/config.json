@@ -19,5 +19,15 @@
       "value": 30,
       "dimension": "seconds"
     }
+  },
+  "redis": {
+    "queue": {
+      "port": "6379",
+      "host": "localhost"
+    },
+    "session": {
+      "port": "6379",
+      "host": "localhost"
+    }
   }
 }

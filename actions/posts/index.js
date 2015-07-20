@@ -22,7 +22,7 @@ module.exports.getPosts = function(request, response)
 {
 	postService.getAllPosts()
 	.then(function(posts) {
-		response.send(posts);
+		response.status(200).send(posts);
 	})
 	.done();
 };

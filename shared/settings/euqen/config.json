@@ -10,6 +10,7 @@
   "root": "http://localhost:4000",
   "domain": "localhost",
   "isHttps": false,
+  "protocol": "http",
   "isMaintenance": false,
   "useBuildApp": false,
   "cookieSecret": "123safasd!afasdf*&^123asdas1ccc73c78bd0bfeb88906f582d635c6e2",
@@ -17,6 +18,16 @@
     "timeout": {
       "value": 30,
       "dimension": "seconds"
+    }
+  },
+  "redis": {
+    "queue": {
+      "port": "6379",
+      "host": "localhost"
+    },
+    "session": {
+      "port": "6379",
+      "host": "localhost"
     }
   }
 }

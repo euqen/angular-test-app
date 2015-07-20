@@ -5,17 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="/bower_components/bootstrap/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/public/stylesheets/style.css">
+  <link rel="stylesheet" href="/bower_components/angular-ui-notification/dist/angular-ui-notification.min.css">
    <meta charset="UTF-8">
     <!-- JS from Bower Components -->
   <script src="/bower_components/angular/angular.min.js"></script>
-  <script src="/public/javascripts/socket.io.js"></script>
-  <script src="/public/javascripts/client.js"></script>
+  <script src="/public/frontend/socket.io.js"></script>
+  <script src="/public/frontend/client.js"></script>
   <script src='/bower_components/angular-ui-router/release/angular-ui-router.min.js'></script>
+  <script src='/bower_components/angular-ui-notification/dist/angular-ui-notification.min.js'></script>
   <script src="/bower_components/angular-cookies/angular-cookies.min.js"></script>
   <script src="/bower_components/moment/moment.js"></script>
-  <script src="/public/javascripts/app.js"></script>
-  <script src="/public/javascripts/services.js"></script>
-  <script src="/public/javascripts/controllers.js"></script>
+  <script src="/public/frontend/app.js"></script>
+  <script src="/public/frontend/services/auth.js"></script>
+  <script src="/public/frontend/services/posts.js"></script>
+  <script src="/public/frontend/services/infrostructure/httpModel.js"></script>
+  <script src="/public/frontend/services/sockets.js"></script>
+  <script src="/public/frontend/modules/home/home.js"></script>
   <!-- Add New Bower Component JS Above -->
 </head>
 <body ng-app="app">

@@ -30,6 +30,16 @@ var config = {
   domain: setty.get('domain'),
   protocol: setty.get('protocol'),
   root: setty.get('root'),
+  redis: {
+    session: {
+      host: setty.get('redis:session:host'),
+      port: setty.get('redis:session:port')
+    },
+    queue: {
+      host: setty.get('redis:queue:host'),
+      port: setty.get('redis:queue:port')
+    }
+  }
 };
 
 module.exports = config;

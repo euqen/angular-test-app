@@ -1,12 +1,11 @@
 var bus = require('../bus');
+var emitter = require('../infrastructure/ioEmitter');
 
-var init = function(server)
-{
-	var io = require('socket.io')(server);
-	
+var socketHandlers = function() {
 	bus.on('read.PostCreated', function(post) {
-		io.emit('post', post);
+		var evtName = 'post';
+		emitter.emit(evtName, post);
 	});
 };
 
-module.exports = init;
+module.exports = socketHandlers();

@@ -11,7 +11,8 @@ var config = require('./shared/config');
 var expressValidator = require('express-validator');
 var ErrorResponse = require('./shared/infrastructure/errorResponse');
 var http = require('http').Server(app);
-var handler = require('./shared/handlers/socket')(http);
+var socketServer = require('./shared/infrastructure/socketServer').init(http);
+var handlers = require('./shared/handlers/handlersRegistry');
 var server;
 
 /**
@@ -25,7 +26,7 @@ app.use(bodyParser.json({ type: 'application/json'}));
 app.use('/public', express.static(path.join(__dirname, '/public')));
 app.use('/bower_components', express.static(path.join(__dirname, '/bower_components')));
 
-app.use(function (error, request, response, next) {
+app.use(function(error, request, response, next) {
   if (error.status) {
     logger.warn('Invalid json: ', error);
     var errorResponse = new ErrorResponse();
@@ -68,4 +69,3 @@ process.on('uncaughtException', function (err) {
 http.listen(config.environment.httpPort, function() {
   logger.info("Server listening on port %d in %s mode", config.environment.httpPort, config.environment.type);
 });
-
