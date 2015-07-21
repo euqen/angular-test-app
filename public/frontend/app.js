@@ -7,7 +7,15 @@ app.config(function($stateProvider, $urlRouterProvider, $locationProvider) {
     .state('home', {
         url: '/',
         templateUrl: '/public/frontend/modules/home/home.html',
-        controller: 'homeController'
+        controller: 'homeController',
+        resolve: {
+            speakUpLoggedInfo: function(auth) {
+                if(auth.isAuthorized('userInfo')) {
+                    return JSON.parse(auth.getUserData('userInfo'));
+                }
+                return false;
+            }
+        }
     });
 
      $urlRouterProvider.otherwise('/');

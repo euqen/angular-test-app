@@ -1,9 +1,17 @@
 var app = angular.module('app');
 
-app.controller('homeController', function($scope, $state, posts, auth, socketio, Notification)
+app.config(function(NotificationProvider) {
+		NotificationProvider.setOptions({
+			delay: 20000,
+		});
+});
+
+app.controller('homeController', function($scope, $state, posts, auth, socketio, speakUpLoggedInfo, Notification)
 {
+	$scope.message = {text : ''};
+	$scope.speakUpLoggedManager = _.contains(speakUpLoggedInfo.roles, 'manager');
 	$scope.isAuthorized = auth.isAuthorized('userAuth');
-	$scope.message = '1234';
+
 	if($scope.isAuthorized) {
 		var userData = auth.getUserData('userAuth');
 		userData = JSON.parse(userData);
@@ -34,8 +42,7 @@ app.controller('homeController', function($scope, $state, posts, auth, socketio,
 		posts.insertPost(post, form)
 		.then(function() {
 			Notification.success('Well done, bro!');
-			$scope.message = '';
-			console.log($scope);
+			$scope.message.text = '';
 		})
 		.catch(function(error) {
 			Notification.error({message: error.errors.errorString});
@@ -43,8 +50,6 @@ app.controller('homeController', function($scope, $state, posts, auth, socketio,
 	};
 
 	socketio.on('post', function(post) {
-		//$scope.$apply(function() {
 		$scope.posts.unshift(post);
-		//});
 	});
 });

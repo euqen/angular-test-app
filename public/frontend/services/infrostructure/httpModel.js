@@ -40,7 +40,6 @@ angular.module("app")
         form.globalErrors = [];
         for (var i = 0; i < errors.length; i++) {
           if (errors[i][field] && errors[i][field] != "") {
-            console.log(errors[i][field]);
             form[errors[i][field]].$serverErrorText = errors[i][message];
           } else {
             form.globalErrors = errors[i][message];
@@ -84,7 +83,8 @@ angular.module("app")
                 form[key].$serverErrorText = "";
               }
             }
-            
+            self.fillFormErrors(form, errors, 'param', 'msg');
+            console.log(form);
             self.getErrorString(errors);
             deferred.reject(data);
           });
