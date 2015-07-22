@@ -7,6 +7,7 @@ var Q = require('q'),
     _ = require('underscore');
 
 var BaseViewService = function(model, options){
+
   this.__Model = model;
   options = options || {};
 
@@ -165,7 +166,7 @@ BaseViewService.prototype.delete = function(query){
 
 BaseViewService.prototype.find = function(query, options){
   options = options || {};
-
+  
   var deferred = Q.defer(),
     self = this,
     mQuery = self.__Model.find(query),

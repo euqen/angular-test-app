@@ -1,11 +1,16 @@
 var mongoose = require('mongoose');
 
 /**
- * Post Schema
+ * Meeting Schema
  */
 
-var PostSchema = new mongoose.Schema({
-	text: {
+var MeetingSchema = new mongoose.Schema({
+	name: {
+		type: String,
+		default: false,
+		required: true
+	},
+	description: {
 		type: String,
 		default: false,
 		required: true
@@ -24,8 +29,12 @@ var PostSchema = new mongoose.Schema({
 		type: String,
 		default: false,
 		required: true
+	},
+	active: {
+		type: Boolean,
+		default: false
 	}
 });
 
 
-module.exports = PostSchema;
+module.exports = MeetingSchema;

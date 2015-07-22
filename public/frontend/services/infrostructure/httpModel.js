@@ -1,5 +1,5 @@
 angular.module("app")
-  .factory("httpModel", function ($http, $q, $state, Notification) {
+  .factory("httpModel", function ($http, $q) {
     var httpModel = {
       get: function (url, options) {
         var deferred = $q.defer(),
@@ -13,8 +13,7 @@ angular.module("app")
           function (data) {
             deferred.resolve(data);
           }).error(function(data, status){
-            self.handleErrors(data, status);
-            deferred.reject();
+            deferred.reject(data);
           });
 
         return deferred.promise;
@@ -30,7 +29,6 @@ angular.module("app")
           })
           .error(function (data, status, headers, config) {
             deferred.reject(data);
-            self.handleErrors(data, status);
           });
 
         return deferred.promise;
@@ -83,10 +81,9 @@ angular.module("app")
                 form[key].$serverErrorText = "";
               }
             }
-            self.fillFormErrors(form, errors, 'param', 'msg');
-            console.log(form);
+            
             self.getErrorString(errors);
-            deferred.reject(data);
+            deferred.reject(errors);
           });
 
         return deferred.promise;
@@ -110,28 +107,7 @@ angular.module("app")
 
       putForm: function (url, form, model) {
         return this.verbForm(url, form, model, 'put');
-      },
-
-     /* handleErrors: function (data, status) {
-        switch (status) {
-          case 400:
-            //don't do anything, just pass errors to the controllers
-            //sometimes needed when make a post request and there is validation error you need return to a client
-            break;
-          case 404:
-            $state.go("not-found");
-            break;
-          case 401:
-            window.location = "/";
-            break;
-          case 403:
-            $state.go("access-denied");
-            break;
-          default:
-            Notification.success('Success notification');
-            break;
-        }
-      }*/
+      }
     };
     return httpModel;
   });

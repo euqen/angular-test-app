@@ -59,9 +59,12 @@ var dropCollection = function(db, name, callback) {
 };
 
 var PostSchema = require('./db/post');
+var MeetingSchema = require('./db/meeting');
 
 module.exports = {
   Post: db.dbase.model('Post', PostSchema),
+  Meeting: db.dbase.model('Meeting', MeetingSchema),
+  
   parseId: function(id){
     return mongoose.Types.ObjectId(id);
   },

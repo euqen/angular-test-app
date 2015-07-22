@@ -7,7 +7,7 @@
 	</form>
 </div>
 
-<button ng-if="speakUpLoggedManager" class="btn btn-sm btn-warning">Start meeting!</button>
+<a href="/start" ng-if="speakUpLoggedManager" class="btn btn-sm btn-warning">Start meeting!</a>
 
 
 <div id="right" ng-if="isAuthorized">
@@ -17,6 +17,18 @@
 		<button class="btn btn-sm btn-primary button" ng-click="insert(message.text, form)">Post me!</button>
 	</form>
 </div>
+
+<h3>Active meeting:</h3> {{meeting.name || meeting.error}} 
+<button ng-if="speakUpLoggedManager && !meeting.error" class="btn btn-xs btn-danger" ng-click="stop()">Stop meeting!</button>
+
+<h3>Meetings history:</h3> 
+
+<p ng-repeat="item in history.items">
+	{{item.name}}
+	{{item.author}}
+</p>
+
+<span ng-if="history.error">{{history.error}}</span>
 
 <div class="post" ng-repeat="post in posts">
 	<span>{{post.author}}</span>

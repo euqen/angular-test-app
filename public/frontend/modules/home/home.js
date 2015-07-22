@@ -6,9 +6,12 @@ app.config(function(NotificationProvider) {
 		});
 });
 
-app.controller('homeController', function($scope, $state, posts, auth, socketio, speakUpLoggedInfo, Notification)
+app.controller('homeController', function($scope, $state, posts, meetings, auth, socketio, speakUpLoggedInfo, Notification)
 {
 	$scope.message = {text : ''};
+	$scope.meeting = {name : '', description: '', error: ''};
+	$scope.history = {items : [], error: ''};
+
 	$scope.speakUpLoggedManager = _.contains(speakUpLoggedInfo.roles, 'manager');
 	$scope.isAuthorized = auth.isAuthorized('userAuth');
 
@@ -17,6 +20,33 @@ app.controller('homeController', function($scope, $state, posts, auth, socketio,
 		userData = JSON.parse(userData);
 		$scope.name = userData.name;
 	}
+
+	meetings.getActiveMeeting()
+	.then(function(meeting) {
+		if (meeting) return $scope.meeting.name = meeting.name;
+		$scope.meeting.error = 'There is no active meeting yet!';
+	});
+
+	meetings.getMeetingsHistory()
+	.then(function(history) {
+		if (history.length) return $scope.history.items = history;
+		$scope.history.error = 'There is no meetings in history yet!';
+	});
+
+	$scope.stop = function()
+	{
+		Notification.clearAll();
+
+		meetings.stopMeeting()
+		.then(function() {
+			$scope.meeting.name = '';
+			$scope.meeting.error = 'There is no active meeting yet!';
+			Notification.success('Meeting successfully stopped!');
+		})
+		.catch(function(error) {
+			Notification.error('Oops! Somthing wrong!'); // TODO
+		});
+	};
 
 	posts.getPosts()
 	.then(function(postsData) {

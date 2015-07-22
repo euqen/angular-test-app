@@ -1,0 +1,10 @@
+<h3>Create new meeting!</h3>
+<br>
+<form name="form" ng-submit="start(meeting.name, meeting.description)">
+	<input type="text" ng-model="meeting.name" ng-bind="koko" class="form-control" name="meeting.name">
+	<br>
+	<textarea class="form-control" id="" cols="30" rows="10" ng-model="meeting.description" name="meeting.description" placeholder="Start typing meeting description here!"></textarea>
+	<br>
+	<input type="submit" class="btn btn-sm btn-warning" value="Start meeting!">
+</form>
+or go <a href="/">back</a>
